@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Logic.Contracts
 {
-    interface IReajusteSalarial
+    public interface IMaioridade
     {
+        public string EhMaiorIdade(string Nome, string Sexo, int Idade);
     }
 }
