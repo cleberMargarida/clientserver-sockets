@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Assignatures
+namespace Logic.Assignatures.Interface
 {
     public interface IMaioridade
     {

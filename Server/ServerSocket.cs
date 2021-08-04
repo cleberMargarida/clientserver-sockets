@@ -1,4 +1,5 @@
-﻿using Logic.Assignatures;
+﻿using Logic.Assignatures.DTO;
+using Logic.Assignatures.Interface;
 using Newtonsoft.Json;
 using System;
 using System.Net;

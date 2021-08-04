@@ -1,4 +1,4 @@
-﻿namespace Logic.Assignatures
+﻿namespace Logic.Assignatures.DTO
 {
     public class DtoMaioridade
     {

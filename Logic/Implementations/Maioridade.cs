@@ -1,4 +1,4 @@
-﻿using Logic.Assignatures;
+﻿using Logic.Assignatures.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
