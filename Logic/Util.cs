@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Contracts
+namespace Logic
 {
-    public interface IMaioridade
+    public static class Util
     {
-        public string EhMaiorIdade(string Nome, string Sexo, int Idade);
+        public static int toInt(this string str) => Convert.ToInt32(str);
     }
 }
