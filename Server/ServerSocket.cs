@@ -1,6 +1,5 @@
 ﻿using Logic.Assignatures;
 using Newtonsoft.Json;
-using Server.Contracts;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -28,7 +27,7 @@ namespace Server
         }
 
         /// <summary>
-        /// Exercicio 1
+        /// Exercicio 2
         /// </summary>
         private static void ProcessRequest_1(Socket handler, string request)
         {

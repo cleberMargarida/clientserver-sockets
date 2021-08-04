@@ -1,4 +1,4 @@
-﻿namespace Server.Contracts
+﻿namespace Logic.Assignatures
 {
     public class DtoMaioridade
     {
