@@ -5,12 +5,11 @@ using System.Text;
 
 namespace Client
 {
-    public class SocketClient
+    public class ClientSocket
     {
-        public static int Main(String[] args)
+        public static void Main(String[] args)
         {
             StartClient();
-            return 0;
         }
 
         public static void StartClient()
@@ -40,16 +39,20 @@ namespace Client
                     Console.WriteLine("Socket conectado em {0}",
                         sender.RemoteEndPoint.ToString());
 
+                    Console.WriteLine("Api - Rest/Json; Cole abaixo o Json da requisicao");
+                    var request = Console.ReadLine();
+
                     // Encode the data string into a byte array.    
-                    byte[] msg = Encoding.ASCII.GetBytes("Oi!<EOF>");
+                    byte[] msg = Encoding.ASCII.GetBytes(request);
 
                     // Send the data through the socket.    
                     int bytesSent = sender.Send(msg);
 
                     // Receive the response from the remote device.    
                     int bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Mensagem = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    Console.WriteLine(Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    Console.WriteLine("Press any key to exit");
+                    Console.ReadLine();
 
                     // Release the socket.    
                     sender.Shutdown(SocketShutdown.Both);
