@@ -8,6 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Logic.Implementations
 {
+    /// <summary>
+    /// Questão 1
+    /// </summary>
     public class Reajuste : IReajuste
     {
         public string ReajusteSalarial(string nome, string cargo, double salario)

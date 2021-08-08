@@ -8,6 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Logic.Implemenations
 {
+    /// <summary>
+    /// Questão 2
+    /// </summary>
     public class Maioridade :IMaioridade
     {
         public string EhMaiorIdade(string nome, string sexo, int idade)
