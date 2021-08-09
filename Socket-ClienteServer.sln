@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{F948BAFF-92AC-4B49-AAF9-E3BA0C178A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{AEA57882-308D-4531-89E5-76BD9C0AE8FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{AEA57882-308D-4531-89E5-76BD9C0AE8FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{9A716EEE-50D5-4DBC-8885-BB8710A51218}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{9A716EEE-50D5-4DBC-8885-BB8710A51218}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

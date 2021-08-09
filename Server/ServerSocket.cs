@@ -10,7 +10,7 @@ namespace Server
 {
     public abstract class ServerSocket
     {
-            private const int EndPointPort = 11000;
+        private const int EndPointPort = 11000;
 
         public static void StartServer()
         {
@@ -22,20 +22,17 @@ namespace Server
 
             Socket handler;
             var request = Listen(ipAddress, localEndPoint, out handler);
-            ProcessRequest_1(handler, request);
+            ProcessRequest(handler, request);
 
             CloseServer(handler);
         }
 
-        /// <summary>
-        /// Exercicio 2
-        /// </summary>
-        private static void ProcessRequest_1(Socket handler, string request)
+        private static void ProcessRequest(Socket handler, string request)
         {
-            var dtoMaioridade = JsonConvert.DeserializeObject<DtoMaioridade>(request);
+            var dto = JsonConvert.DeserializeObject<DtoMaioridade>(request);
 
             var returnProcess = ServiceLocator.UseService<IMaioridade>()
-                .EhMaiorIdade(dtoMaioridade.Nome, dtoMaioridade.Sexo, dtoMaioridade.Idade);
+                .EhMaiorIdade(dto.Nome, dto.Sexo, dto.Idade);
 
             SendResponse(handler, returnProcess);
         }

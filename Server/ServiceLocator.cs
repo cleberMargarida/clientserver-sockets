@@ -1,6 +1,7 @@
 ﻿using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
 using Logic.Implemenations;
+using Logic.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace Server
         private static Locator services = new Locator();
 
         private static void InitServices() =>
-            services.AddScoped<IMaioridade, Maioridade>();
+            services.AddScoped<IMaioridade, Maioridade>()
+                    .AddScoped<IBaralho, Baralho>();
 
         public static T UseService<T>()
         {

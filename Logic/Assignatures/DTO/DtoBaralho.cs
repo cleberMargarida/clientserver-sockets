@@ -1,8 +1,11 @@
-﻿namespace Logic.Assignatures.DTO
+﻿using System;
+using System.Collections.Generic;
+
+namespace Logic.Assignatures.DTO
 {
     public class DtoBaralho
     {
-        public int Numero { get; set; }
+        public int Carta { get; set; }
 
         public int Naipe { get; set; }
     }
