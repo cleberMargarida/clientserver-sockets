@@ -2,30 +2,57 @@
 using Logic.Assignatures.Interface;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Server
 {
     public abstract class ServerSocket
     {
-        private const int EndPointPort = 11000;
+        private static int Port = 11000;
+
+        public static void StartMultThreadServer()
+        {
+            Thread threadClientCS = new Thread(StartServer);
+            Thread threadClientVB = new Thread(StartServer);
+
+            threadClientCS.Start();
+            threadClientVB.Start();
+        }
 
         public static void StartServer()
         {
-            // Get Host IP Address that is used to establish a connection  
-            // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
-            // If a host has multiple addresses, you will get a list of addresses  
             IPAddress ipAddress = GetIpAddress();
-            IPEndPoint localEndPoint = GetLocalEndPoint(ipAddress, EndPointPort);
-
-            Socket handler;
-            var request = Listen(ipAddress, localEndPoint, out handler);
+            IPEndPoint localEndPoint = GetEndPoint(ipAddress, Port++);
+            var request = Listen(ipAddress, localEndPoint, out Socket handler);
             ProcessRequest(handler, request);
-
             CloseServer(handler);
         }
+
+        private static string Listen(IPAddress ipAddress, IPEndPoint localEndPoint, out Socket handler)
+        {
+            Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            listener.Bind(localEndPoint);
+            listener.Listen(1);
+
+            handler = listener.Accept();
+
+            var bytes = new byte[1024];
+            int bytesRec = handler.Receive(bytes);
+            
+            string requestMsg = null;
+            requestMsg += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+
+            return requestMsg;
+        }
+
+        private static IPAddress GetIpAddress() => Dns.GetHostEntry("localhost").AddressList.First();
+
+        private static IPEndPoint GetEndPoint(IPAddress ipAddress, int port) => new IPEndPoint(ipAddress, port);
+
 
         private static void ProcessRequest(Socket handler, string request)
         {
@@ -43,41 +70,6 @@ namespace Server
         {
             handler.Shutdown(SocketShutdown.Both);
             handler.Close();
-        }
-
-        private static string Listen(IPAddress ipAddress, IPEndPoint localEndPoint, out Socket handler)
-        {
-            // Cria um Socket que usará o protocolo TCP     
-            Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            // Um Socket deve ser associado a um endpoint usando o método Bind  
-            listener.Bind(localEndPoint);
-            // Especifica quantas solicitações um Socket pode escutar antes de dar uma resposta de Servidor ocupado.    
-            listener.Listen(1);
-
-            Console.WriteLine("Listening...");
-            handler = listener.Accept();
-
-            string requestMsg = null;
-            byte[] bytes = null;
-
-            bytes = new byte[1024];
-            int bytesRec = handler.Receive(bytes);
-            requestMsg += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-
-            // Mensagem enviada pelo client.    
-            return requestMsg;
-        }
-
-        private static IPEndPoint GetLocalEndPoint(IPAddress ipAddress, int port)
-        {
-            return new IPEndPoint(ipAddress, port);
-        }
-
-        private static IPAddress GetIpAddress()
-        {
-            IPHostEntry host = Dns.GetHostEntry("localhost");
-            IPAddress ipAddress = host.AddressList[0];
-            return ipAddress;
         }
     }
 }
