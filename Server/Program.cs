@@ -4,6 +4,6 @@ namespace Server
 {
     public class Program
     {
-        public static void Main(String[] args) => ServerSocket.StartMultThreadServer();
+        public static void Main(String[] args) => ServerSocket.StartServer();
     }
 }

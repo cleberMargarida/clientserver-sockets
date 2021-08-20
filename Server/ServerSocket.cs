@@ -1,4 +1,5 @@
-﻿using Logic.Assignatures.DTO;
+﻿using Logic;
+using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
 using Newtonsoft.Json;
 using System;
@@ -14,35 +15,36 @@ namespace Server
     {
         private static int Port = 11000;
 
-        public static void StartMultThreadServer()
-        {
-            Thread threadClientCS = new Thread(StartServer);
-            Thread threadClientVB = new Thread(StartServer);
-
-            threadClientCS.Start();
-            threadClientVB.Start();
-        }
-
         public static void StartServer()
         {
             IPAddress ipAddress = GetIpAddress();
-            IPEndPoint localEndPoint = GetEndPoint(ipAddress, Port++);
-            var request = Listen(ipAddress, localEndPoint, out Socket handler);
-            ProcessRequest(handler, request);
-            CloseServer(handler);
+            IPEndPoint localEndPoint = GetEndPoint(ipAddress, Port);
+
+            var socket = CreateSocket(ipAddress, localEndPoint);
+
+
+            while (true)
+            {
+                var thread = new Thread(ProcessClient).After(x => x.Start());
+
+                void ProcessClient()
+                {
+                    var handler = socket.Accept();
+                    var clientRequest = GetRequest(handler);
+                    ProcessRequest(handler, clientRequest);
+                }
+            }
         }
 
-        private static string Listen(IPAddress ipAddress, IPEndPoint localEndPoint, out Socket handler)
+        private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+                .After(x => x.Bind(localEndPoint))
+                .After(x => x.Listen());
+
+        private static string GetRequest(Socket handler)
         {
-            Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            listener.Bind(localEndPoint);
-            listener.Listen(1);
-
-            handler = listener.Accept();
-
             var bytes = new byte[1024];
             int bytesRec = handler.Receive(bytes);
-            
+
             string requestMsg = null;
             requestMsg += Encoding.ASCII.GetString(bytes, 0, bytesRec);
 
@@ -65,11 +67,5 @@ namespace Server
         }
 
         private static void SendResponse(Socket handler, string returnProcess) => handler.Send(Encoding.ASCII.GetBytes(returnProcess));
-
-        private static void CloseServer(Socket handler)
-        {
-            handler.Shutdown(SocketShutdown.Both);
-            handler.Close();
-        }
     }
 }
