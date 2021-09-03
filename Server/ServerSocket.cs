@@ -1,4 +1,6 @@
-﻿using Data.Entity;
+﻿using Data;
+using Data.DAO;
+using Data.Entity;
 using Logic;
 using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
@@ -25,8 +27,8 @@ namespace Server
 
             var socket = CreateSocket(ipAddress, localEndPoint);
 
-            //while (true)
-            //{
+            while (true)
+            {
                 var thread = new Thread(ProcessClient).Apply(x => x.Start());
 
                 void ProcessClient()
@@ -35,7 +37,7 @@ namespace Server
                     var clientRequest = GetRequest(handler);
                     ProcessRequest(handler, clientRequest);
                 }
-            //}
+            }
         }
 
         private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => 
@@ -60,30 +62,15 @@ namespace Server
 
         private static void ProcessRequest(Socket handler, string request)
         {
+            ///{"nome": "Cleber","sexo": "M","idade": 22}
             var dto = request.Deserialize<DtoMaioridade>();
+
+            Repository<DaoMaioridade, Maioridade>
+                .Create(Transform.InEntity(dto));
 
             var returnProcess = ServiceLocator.UseService<IMaioridade>().GetResponse(dto);
 
-            SaveDataFromRequest(Transform.InEntity(dto));
-
             SendResponse(handler, returnProcess);
-        }
-
-        private static void SaveDataFromRequest(Maioridade entity)
-        {
-            ISession session = NHibernateConfig.GetCurrentSession();
-            try
-            {
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.Save(entity);
-                    transaction.Commit();
-                }
-            }
-            finally
-            {
-                NHibernateConfig.CloseSession();
-            }
         }
 
         private static void SendResponse(Socket handler, string returnProcess) => handler.Send(Encoding.ASCII.GetBytes(returnProcess));
