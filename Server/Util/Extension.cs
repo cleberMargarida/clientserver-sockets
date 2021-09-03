@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.Util
 {
-    public static class StringExtension
+    public static class Extension
     {
         /// <summary>
         /// Split a string with new lines into Array of strings.

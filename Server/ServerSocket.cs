@@ -1,7 +1,10 @@
-﻿using Logic;
+﻿using Data.Entity;
+using Logic;
 using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
 using Newtonsoft.Json;
+using NHibernate;
+using Server.Util;
 using System;
 using System.Linq;
 using System.Net;
@@ -22,18 +25,13 @@ namespace Server
 
             var socket = CreateSocket(ipAddress, localEndPoint);
 
-            while (true)
+            var thread = new Thread(ProcessClient).Apply(x => x.Start());
+
+            void ProcessClient()
             {
-                var thread = new Thread(ProcessClient).Apply(x => x.Start());
-
-                void ProcessClient()
-                {
-                    var handler = socket.Accept();
-                    var clientRequest = GetRequest(handler);
-                    ProcessRequest(handler, clientRequest);
-                }
-
-                thread.Abort();
+                var handler = socket.Accept();
+                var clientRequest = GetRequest(handler);
+                ProcessRequest(handler, clientRequest);
             }
         }
 
@@ -64,7 +62,26 @@ namespace Server
             var returnProcess = ServiceLocator.UseService<IMaioridade>()
                 .EhMaiorIdade(dto.Nome, dto.Sexo, dto.Idade);
 
+            SaveDataFromRequest(Transform.InEntity(dto));
+
             SendResponse(handler, returnProcess);
+        }
+
+        private static void SaveDataFromRequest(Maioridade entity)
+        {
+            ISession session = NHibernateConfig.GetCurrentSession();
+            try
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.Save(entity);
+                    transaction.Commit();
+                }
+            }
+            finally
+            {
+                NHibernateConfig.CloseSession();
+            }
         }
 
         private static void SendResponse(Socket handler, string returnProcess) => handler.Send(Encoding.ASCII.GetBytes(returnProcess));
