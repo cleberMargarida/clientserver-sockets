@@ -1,12 +1,9 @@
-﻿using Logic.Assignatures.DTO;
+﻿using Logic;
 using Logic.Assignatures.Interface;
 using Logic.Implemenations;
 using Logic.Implementations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -19,8 +16,14 @@ namespace Server
         private static Locator services = new Locator();
 
         private static void InitServices() =>
-            services.AddScoped<IMaioridade, Maioridade>()
-                    .AddScoped<IBaralho, Baralho>();
+            services.AddScoped<IBaralho, Baralho>()
+                    .AddScoped<IMaioridade, Maioridade>()
+                    .AddScoped<IMedia, Media>()
+                    .AddScoped<INatacao, Natacao>()
+                    .AddScoped<IPeso, Peso>()
+                    .AddScoped<IReajuste, Reajuste>()
+                    .AddScoped<ISalario, Salario>()
+                    .AddScoped<ISaldoMedio, SaldoMedio>();
 
         public static T UseService<T>()
         {
@@ -32,13 +35,8 @@ namespace Server
             return (T)services[typeof(T)];
         }
 
-        private static Locator AddScoped<T, TT>(this Locator services)
-        {
-            services
-                .Add(typeof(T), (T)Activator.CreateInstance(typeof(TT)));
-            
-            return services;
-        }
+        private static Locator AddScoped<T, TT>(this Locator services) => 
+            services.Apply(x => x.Add(typeof(T), (T)Activator.CreateInstance(typeof(TT))));
 
         private static bool IsNotInitiated(this Locator services) => services.Count == 0;
     }

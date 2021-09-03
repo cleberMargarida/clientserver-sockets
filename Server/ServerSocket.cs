@@ -22,10 +22,9 @@ namespace Server
 
             var socket = CreateSocket(ipAddress, localEndPoint);
 
-
             while (true)
             {
-                var thread = new Thread(ProcessClient).After(x => x.Start());
+                var thread = new Thread(ProcessClient).Apply(x => x.Start());
 
                 void ProcessClient()
                 {
@@ -33,12 +32,15 @@ namespace Server
                     var clientRequest = GetRequest(handler);
                     ProcessRequest(handler, clientRequest);
                 }
+
+                thread.Abort();
             }
         }
 
-        private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
-                .After(x => x.Bind(localEndPoint))
-                .After(x => x.Listen());
+        private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => 
+            new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+            .Apply(x => x.Bind(localEndPoint))
+            .Apply(x => x.Listen());
 
         private static string GetRequest(Socket handler)
         {
@@ -54,7 +56,6 @@ namespace Server
         private static IPAddress GetIpAddress() => Dns.GetHostEntry("localhost").AddressList.First();
 
         private static IPEndPoint GetEndPoint(IPAddress ipAddress, int port) => new IPEndPoint(ipAddress, port);
-
 
         private static void ProcessRequest(Socket handler, string request)
         {
