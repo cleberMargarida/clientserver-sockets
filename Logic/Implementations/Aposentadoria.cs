@@ -1,10 +1,5 @@
 ﻿using Logic.Assignatures.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +8,8 @@ namespace Logic.Implementations
     /// </summary>
     public class Aposentadoria : IAposentadoria
     {
+        public string GetResponse(DtoAposentadoria dto) => PermiteAposentadoria(dto.Idade, dto.Tempo);
+
         public string PermiteAposentadoria(int idade, int tempo)
         {
             if (idade < 0 || idade > 100) return "Idade invalida.";

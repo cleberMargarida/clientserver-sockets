@@ -25,14 +25,17 @@ namespace Server
 
             var socket = CreateSocket(ipAddress, localEndPoint);
 
-            var thread = new Thread(ProcessClient).Apply(x => x.Start());
+            //while (true)
+            //{
+                var thread = new Thread(ProcessClient).Apply(x => x.Start());
 
-            void ProcessClient()
-            {
-                var handler = socket.Accept();
-                var clientRequest = GetRequest(handler);
-                ProcessRequest(handler, clientRequest);
-            }
+                void ProcessClient()
+                {
+                    var handler = socket.Accept();
+                    var clientRequest = GetRequest(handler);
+                    ProcessRequest(handler, clientRequest);
+                }
+            //}
         }
 
         private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => 
@@ -57,10 +60,9 @@ namespace Server
 
         private static void ProcessRequest(Socket handler, string request)
         {
-            var dto = JsonConvert.DeserializeObject<DtoMaioridade>(request);
+            var dto = request.Deserialize<DtoMaioridade>();
 
-            var returnProcess = ServiceLocator.UseService<IMaioridade>()
-                .EhMaiorIdade(dto.Nome, dto.Sexo, dto.Idade);
+            var returnProcess = ServiceLocator.UseService<IMaioridade>().GetResponse(dto);
 
             SaveDataFromRequest(Transform.InEntity(dto));
 

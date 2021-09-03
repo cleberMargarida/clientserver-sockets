@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Assignatures.DTO;
 
 namespace Logic.Assignatures.Interface
 {
-    public interface ISalario
+    public interface ISalario : IService<DtoSalario>
     {
         public string CalculoSalarioLiquido(string nome, string nivel, double salario, int dependentes);
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +14,8 @@ namespace Logic.Implementations
     /// </summary>
     public class Reajuste : IReajuste
     {
+        public string GetResponse(DtoReajuste dto) => ReajusteSalarial(dto.Nome, dto.Cargo, dto.Salario);
+
         public string ReajusteSalarial(string nome, string cargo, double salario)
         {
             if (cargo != "operador" && cargo != "programador") return "Cargo invalido!";

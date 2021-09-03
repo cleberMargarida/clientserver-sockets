@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +14,8 @@ namespace Logic.Implementations
     /// </summary>
     public class Natacao : INatacao
     {
+        public string GetResponse(DtoNatacao dto) => Categoria(dto.Idade);
+
         public string Categoria(int idade)
         {
             if (idade < 5 || idade > 100) return "Idade invalida!";

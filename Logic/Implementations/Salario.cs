@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +14,8 @@ namespace Logic.Implementations
     /// </summary>
     public class Salario : ISalario
     {
+        public string GetResponse(DtoSalario dto) => CalculoSalarioLiquido(dto.Nome, dto.Nivel, dto.SalarioBruto, dto.Dependentes);
+
         public string CalculoSalarioLiquido(string nome, string nivel, double salario, int dependentes)
         {
             if (nome == String.Empty) return "Nome invalido.";

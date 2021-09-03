@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Logic.Assignatures.DTO
+﻿namespace Logic.Assignatures.DTO
 {
-    public class DtoBaralho
+    public class DtoBaralho : DtoBase
     {
         public int Carta { get; set; }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Assignatures.DTO;
 
 namespace Logic.Assignatures.Interface
 {
-    public interface IReajuste
+    public interface IReajuste : IService<DtoReajuste>
     {
         public string ReajusteSalarial(string nome, string cargo, double salario);
     }

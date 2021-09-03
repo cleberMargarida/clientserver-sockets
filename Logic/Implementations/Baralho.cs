@@ -1,10 +1,13 @@
-﻿using Logic.Assignatures.Interface;
+﻿using Logic.Assignatures.DTO;
+using Logic.Assignatures.Interface;
 using System;
 using System.Collections.Generic;
 namespace Logic.Implementations
 {
     public class Baralho : IBaralho
     {
+        public string GetResponse(DtoBaralho dto) => NomeDaCarta(dto.Carta, dto.Naipe);
+
         public string NomeDaCarta(int carta, int naipe)
         {
             return Carta.GetCarta(carta) + " de " + Carta.GetNaipe(naipe);

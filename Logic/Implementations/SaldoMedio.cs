@@ -1,10 +1,6 @@
 ﻿using Logic.Assignatures.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +9,8 @@ namespace Logic.Implementations
     /// </summary>
     public class SaldoMedio : ISaldoMedio
     {
+        public string GetResponse(DtoSaldoMedio dto) => CalculoDeCredito(dto.Saldo);
+
         public string CalculoDeCredito(double saldo)
         {
             if (saldo < 0) return "Saldo invalido.";

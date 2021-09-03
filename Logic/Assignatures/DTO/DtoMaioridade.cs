@@ -1,6 +1,6 @@
 ﻿namespace Logic.Assignatures.DTO
 {
-    public class DtoMaioridade
+    public class DtoMaioridade : DtoBase
     {
         public string Nome { get; set; }
 

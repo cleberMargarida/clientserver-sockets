@@ -1,6 +1,6 @@
 ﻿namespace Logic.Assignatures.DTO
 {
-    public class DtoMedia
+    public class DtoMedia : DtoBase
     {
         public float N1 { get; set; }
 

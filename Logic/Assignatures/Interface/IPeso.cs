@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Assignatures.DTO;
 
 namespace Logic.Assignatures.Interface
 {
-    public interface IPeso
+    public interface IPeso : IService<DtoPeso>
     {
         public string PesoIdeal(string sexo, double altura);
     }

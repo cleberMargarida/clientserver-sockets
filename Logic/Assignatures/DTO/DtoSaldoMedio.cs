@@ -1,6 +1,6 @@
 ﻿namespace Logic.Assignatures.DTO
 {
-    public class DtoSaldoMedio
+    public class DtoSaldoMedio : DtoBase
     {
         public double Saldo { get; set; }
     }

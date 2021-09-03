@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implementations
 {
@@ -13,6 +14,8 @@ namespace Logic.Implementations
     /// </summary>
     public class Peso : IPeso
     {
+        public string GetResponse(DtoPeso dto) => PesoIdeal(dto.Sexo, dto.Altura);
+
         public string PesoIdeal(string sexo, double altura)
         {
             if (sexo != "M" && sexo != "F") return "Sexo invalido!";

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Logic.Assignatures.DTO;
 
 namespace Logic.Implemenations
 {
-    /// <summary>
-    /// Questão 2
-    /// </summary>
-    public class Maioridade :IMaioridade
+    public class Maioridade : IMaioridade
     {
+        public string GetResponse(DtoMaioridade dto) => EhMaiorIdade(dto.Nome, dto.Sexo, dto.Idade);
+
         public string EhMaiorIdade(string nome, string sexo, int idade)
         {
             if (idade < 0 || idade > 100) return "Idade Invalida!";

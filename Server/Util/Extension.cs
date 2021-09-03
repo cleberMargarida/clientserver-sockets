@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,5 +28,8 @@ namespace Server.Util
 
             return St.Substring(pFrom, pTo - pFrom);
         }
+
+        public static T Deserialize<T>(this string json) => JsonConvert.DeserializeObject<T>(json);
+
     }
 }
