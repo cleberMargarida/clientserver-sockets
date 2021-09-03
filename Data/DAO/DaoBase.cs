@@ -1,5 +1,4 @@
 ﻿using NHibernate;
-using System;
 
 namespace Data.DAO
 {
@@ -11,7 +10,22 @@ namespace Data.DAO
             try
             {
                 using ITransaction transaction = session.BeginTransaction();
-                session.SaveOrUpdate(entity);
+                session.Save(entity);
+                transaction.Commit();
+            }
+            finally
+            {
+                NHibernateConfig.CloseSession();
+            }
+        }
+
+        public void Update(T entity)
+        {
+            ISession session = NHibernateConfig.GetCurrentSession();
+            try
+            {
+                using ITransaction transaction = session.BeginTransaction();
+                session.Update(entity);
                 transaction.Commit();
             }
             finally

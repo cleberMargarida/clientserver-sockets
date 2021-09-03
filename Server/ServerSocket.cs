@@ -4,10 +4,7 @@ using Data.Entity;
 using Logic;
 using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
-using Newtonsoft.Json;
-using NHibernate;
 using Server.Util;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -65,8 +62,7 @@ namespace Server
             ///{"nome": "Cleber","sexo": "M","idade": 22}
             var dto = request.Deserialize<DtoMaioridade>();
 
-            Repository<DaoMaioridade, Maioridade>
-                .Create(Transform.InEntity(dto));
+            Repository<DaoMaioridade, Maioridade>.Create(Transform.InEntity(dto));
 
             var returnProcess = ServiceLocator.UseService<IMaioridade>().GetResponse(dto);
 
