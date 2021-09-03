@@ -16,7 +16,7 @@ namespace Logic
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <param name="input">The source</param>
         /// <param name="updater">The action to perform.</param>
-        public static TSource After<TSource>(this TSource input, Action<TSource> updater)
+        public static TSource Apply<TSource>(this TSource input, Action<TSource> updater)
         {
             if (updater != null && input != null)
             {
