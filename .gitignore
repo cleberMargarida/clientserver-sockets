@@ -20,6 +20,9 @@ Logic/obj/Debug/net5.0/Logic.AssemblyInfo.cs
 Client/Properties/AssemblyInfo.cs
 Client/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
 Client/bin/Debug/Client.exe.config
+ClientVB/Properties/AssemblyInfo.vb
+ClientVB/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.vb
+ClientVB/bin/Debug/Client.exe.config
 Server/obj/Debug/net5.0/.NETCoreApp,Version=v5.0.AssemblyAttributes.cs
 *.editorconfig
 Server/obj/Debug/net5.0/Server.AssemblyInfo.cs
