@@ -4,7 +4,7 @@ using Data.Entity;
 using Logic;
 using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
-using Server.Util;
+using Logic.Utilities;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -26,7 +26,7 @@ namespace Server
 
             while (true)
             {
-                var thread = new Thread(ProcessClient).Apply(x => x.Start());
+                var thread = new Thread(ProcessClient).Modify(x => x.Start());
 
                 void ProcessClient()
                 {
@@ -39,8 +39,8 @@ namespace Server
 
         private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => 
             new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
-            .Apply(x => x.Bind(localEndPoint))
-            .Apply(x => x.Listen());
+            .Modify(x => x.Bind(localEndPoint))
+            .Modify(x => x.Listen());
 
         private static string GetRequest(Socket handler)
         {
@@ -62,7 +62,7 @@ namespace Server
             ///{"nome": "Cleber","sexo": "M","idade": 22}
             var dto = request.Deserialize<DtoMaioridade>();
 
-            Repository<DaoMaioridade, Maioridade>.Create(Transform.InEntity(dto));
+            DataPersistence<Maioridade>.Create(Transform.InEntity(dto));
 
             var returnProcess = ServiceLocator.UseService<IMaioridade>().GetResponse(dto);
 

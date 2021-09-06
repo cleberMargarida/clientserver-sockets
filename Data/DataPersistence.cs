@@ -1,16 +1,13 @@
 ﻿using Data.DAO;
 using Data.Entity;
-using System;
 
 namespace Data
 {
-    public class Repository<TDao, TEntity> 
-        where TDao : DaoBase<TEntity> 
-        where TEntity : EntityId
+    public class DataPersistence<TEntity> where TEntity : EntityId
     {
-        private static TDao _dao;
+        private static DaoBase<TEntity> _dao;
 
-        static Repository() => _dao = (TDao)Activator.CreateInstance(typeof(TDao));
+        static DataPersistence() => _dao = new DaoBase<TEntity>();
 
         public static void Create(TEntity entity) => _dao.Create(entity);
 

@@ -3,23 +3,17 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using System.Reflection;
 
-public class NHibernateConfig
+public class NHibernateClass
 {
     private static readonly ISessionFactory _sessionFactory;
 
-    static NHibernateConfig() => _sessionFactory = FluentConfigure();
+    static NHibernateClass() => _sessionFactory = FluentConfigure();
 
     public static ISession GetCurrentSession() => _sessionFactory.OpenSession();
 
     public static void CloseSession() => _sessionFactory.Close();
 
-    public static void CloseSessionFactory()
-    {
-        if (_sessionFactory != null)
-        {
-            _sessionFactory.Close();
-        }
-    }
+    public static void CloseSessionFactory() => _sessionFactory.Close();
 
     public static ISessionFactory FluentConfigure() => 
         Fluently.Configure()

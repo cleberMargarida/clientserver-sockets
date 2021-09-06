@@ -1,7 +1,7 @@
 ﻿using Data.Entity;
 using Logic.Assignatures.DTO;
 
-namespace Server.Util
+namespace Server
 {
     public static class Transform
     {

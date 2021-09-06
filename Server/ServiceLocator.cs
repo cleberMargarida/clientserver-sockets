@@ -1,7 +1,7 @@
-﻿using Logic;
-using Logic.Assignatures.Interface;
+﻿using Logic.Assignatures.Interface;
 using Logic.Implemenations;
 using Logic.Implementations;
+using Logic.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +36,7 @@ namespace Server
         }
 
         private static Locator AddScoped<T, TT>(this Locator services) => 
-            services.Apply(x => x.Add(typeof(T), (T)Activator.CreateInstance(typeof(TT))));
+            services.Modify(x => x.Add(typeof(T), (T)Activator.CreateInstance(typeof(TT))));
 
         private static bool IsNotInitiated(this Locator services) => services.Count == 0;
     }

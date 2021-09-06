@@ -6,7 +6,7 @@ namespace Data.DAO
     {
         public void Create(T entity)
         {
-            ISession session = NHibernateConfig.GetCurrentSession();
+            ISession session = NHibernateClass.GetCurrentSession();
             try
             {
                 using ITransaction transaction = session.BeginTransaction();
@@ -15,13 +15,13 @@ namespace Data.DAO
             }
             finally
             {
-                NHibernateConfig.CloseSession();
+                NHibernateClass.CloseSession();
             }
         }
 
         public void Update(T entity)
         {
-            ISession session = NHibernateConfig.GetCurrentSession();
+            ISession session = NHibernateClass.GetCurrentSession();
             try
             {
                 using ITransaction transaction = session.BeginTransaction();
@@ -30,13 +30,13 @@ namespace Data.DAO
             }
             finally
             {
-                NHibernateConfig.CloseSession();
+                NHibernateClass.CloseSession();
             }
         }
 
         public void Delete(T entity)
         {
-            ISession session = NHibernateConfig.GetCurrentSession();
+            ISession session = NHibernateClass.GetCurrentSession();
             try
             {
                 using ITransaction transaction = session.BeginTransaction();
@@ -45,13 +45,13 @@ namespace Data.DAO
             }
             finally
             {
-                NHibernateConfig.CloseSession();
+                NHibernateClass.CloseSession();
             }
         }
 
         public T Select(int id)
         {
-            ISession session = NHibernateConfig.GetCurrentSession();
+            ISession session = NHibernateClass.GetCurrentSession();
             try
             {
                 using ITransaction transaction = session.BeginTransaction();
@@ -59,7 +59,7 @@ namespace Data.DAO
             }
             finally
             {
-                NHibernateConfig.CloseSession();
+                NHibernateClass.CloseSession();
             }
         }
     }

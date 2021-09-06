@@ -31,3 +31,5 @@ Client/obj/Debug/net5.0/.NETCoreApp,Version=v5.0.AssemblyAttributes.cs
 .vs/Socket-ClienteServer/v16/.suo
 *.CopyComplete
 *.v2
+/Data/obj/Debug/net5.0/Data.AssemblyInfo.cs
+/Data/obj/Debug/net5.0/.NETCoreApp,Version=v5.0.AssemblyAttributes.cs
