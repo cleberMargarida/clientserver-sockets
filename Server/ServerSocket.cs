@@ -1,10 +1,9 @@
 ﻿using Data;
-using Data.DAO;
 using Data.Entity;
-using Logic;
 using Logic.Assignatures.DTO;
 using Logic.Assignatures.Interface;
 using Logic.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,50 +12,29 @@ using System.Threading;
 
 namespace Server
 {
-    public abstract class ServerSocket
+    public class ServerSocket
     {
-        private static int Port = 11000;
+        private static int _port = 11000;
+        protected static IPAddress _ipAddress  => Dns.GetHostEntry("localhost").AddressList.First();
+        protected static IPEndPoint _iPEndPoint => new IPEndPoint(_ipAddress, _port);
+        protected static Socket _socket => new Socket(_ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+            .Modify(x => x.Bind(_iPEndPoint))
+            .Modify(x => x.Listen());
 
         public static void StartServer()
         {
-            IPAddress ipAddress = GetIpAddress();
-            IPEndPoint localEndPoint = GetEndPoint(ipAddress, Port);
+            var thread = new Thread(ProcessClient).Modify(x => x.Start());
 
-            var socket = CreateSocket(ipAddress, localEndPoint);
-
-            while (true)
+            void ProcessClient()
             {
-                var thread = new Thread(ProcessClient).Modify(x => x.Start());
-
-                void ProcessClient()
-                {
-                    var handler = socket.Accept();
-                    var clientRequest = GetRequest(handler);
-                    ProcessRequest(handler, clientRequest);
-                }
+                var handler = _socket.Accept();
+                var clientRequest = GetRequest(handler, new byte[1024]);
+                ProcessRequest(handler, clientRequest);
             }
         }
 
-        private static Socket CreateSocket(IPAddress ipAddress, IPEndPoint localEndPoint) => 
-            new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
-            .Modify(x => x.Bind(localEndPoint))
-            .Modify(x => x.Listen());
-
-        private static string GetRequest(Socket handler)
-        {
-            var bytes = new byte[1024];
-            int bytesRec = handler.Receive(bytes);
-
-            string requestMsg = null;
-            requestMsg += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-
-            return requestMsg;
-        }
-
-        private static IPAddress GetIpAddress() => Dns.GetHostEntry("localhost").AddressList.First();
-
-        private static IPEndPoint GetEndPoint(IPAddress ipAddress, int port) => new IPEndPoint(ipAddress, port);
-
+        private static string GetRequest(Socket handler, byte[] buffer) => Encoding.ASCII.GetString(buffer, 0, handler.Receive(buffer));
+        
         private static void ProcessRequest(Socket handler, string request)
         {
             ///{"nome": "Cleber","sexo": "M","idade": 22}
